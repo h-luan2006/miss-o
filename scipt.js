@@ -53,5 +53,35 @@ let perguntaAtual;
 let historiaFinal = "";
 
 function mostraPergunta() {
-    if (atual >= perguntas.length)
+    if (atual >= perguntas.length) {
+        mostraReultado();
+        return;
+    }
+    perguntaAtual = perguntas[atual];
+    caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.textContent = "";
+    textoResultado.textContent = "";
+    motraAlternativas();
 }
+
+function motraAlternativas (){
+    for (const alternativa of perguntaAtual.alternativas){
+        const botaoAlternativa = document.createElement("button");
+        botaoAlternativa.textContent = alternativa.texto;
+        botaoAlternativa.addEventListener("click", () =>
+respostaelecionada(alternativa));
+        caixaAlternativas.appendChild (botaoAlternativa);
+    }
+}
+function respostaSelecionada (opcaoSelecionada){
+    const afirmacao = opcaoSelecionada.afirmacao;
+    historiaFinal += afirmacao + " ";
+    atual ++
+    mostraPergunta();
+}
+function motraResultado(){
+    caixaPerguntas.textContent = "Resumindo...";
+    textoResultado.textContent = historiaFinal;
+    caixaAlternativas.textContent = " ";
+}
+mostraPergunta();
